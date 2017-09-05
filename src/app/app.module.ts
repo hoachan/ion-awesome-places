@@ -1,14 +1,21 @@
-import { SetLocationPage } from './../pages/set-location/set-location';
-import { PlacePage } from './../pages/place/place';
-import { AddPlacePage } from './../pages/add-place/add-place';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicStorageModule } from "@ionic/storage";
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpModule } from '@angular/http';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { AddPlacePage } from "../pages/add-place/add-place";
+import { PlacePage } from "../pages/place/place";
+import { SetLocationPage } from "../pages/set-location/set-location";
+import { AgmCoreModule } from "angular2-google-maps/core";
+import { PlacesService } from "../services/places";
 
 @NgModule({
   declarations: [
@@ -20,7 +27,12 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAOGymqa7HezIpq9lfv8GM9GtQ5fO-ZW9A'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,9 +43,14 @@ import { HomePage } from '../pages/home/home';
     SetLocationPage
   ],
   providers: [
+    File,
+    Camera,
+    Geolocation,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PlacesService
   ]
 })
-export class AppModule {}
+export class AppModule {
+}
